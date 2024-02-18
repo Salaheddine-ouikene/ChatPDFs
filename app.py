@@ -36,7 +36,6 @@ def get_vectorstore(text_chunks):
 
 def get_conversation_chain(vectorstore):
     llm = ChatOpenAI()
-    # llm = HuggingFaceHub(repo_id="google/flan-t5-xxl", model_kwargs={"temperature":0.5, "max_length":512})
 
     memory = ConversationBufferMemory(
         memory_key='chat_history', return_messages=True)
@@ -89,14 +88,12 @@ def main():
             raw_text = get_pdf_text(pdf_docs)
             # get the text chunks
             text_chunks = get_text_chunks(raw_text)
-            st.write(text_chunks)
+            #st.write(text_chunks)
             # create vector store
             vectorstore = get_vectorstore(text_chunks)
-            st.write(vectorstore)
+            #st.write(vectorstore)
             # create conversation chain
-            """Remarque
-            dans streamlit a chaque fois qu'on fait une action(Cliquer sur un bouton,aploder qlq choche ect..) streamlit reload tout le progamme ce qui veut dire qu'elle va renesialiser qlq variable e
-              . et pour eviter le renitialisation une variable ou utiliser comme variable ou objet durant tt l'appliication :  on utilise st.session_state.var  """
+            
             st.session_state.conversation = get_conversation_chain(vectorstore)
             
            
