@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: chatpdf-app-ingress
+spec:
+  rules: 
+  - host: chat-pdfs.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: chatpdf-app-service
+            port:
+              number: 8501

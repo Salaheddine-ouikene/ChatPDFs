@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatpdf-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: chatpdf-app
+  template:
+    metadata:
+      labels:
+        app: chatpdf-app
+    spec:
+      containers:
+      - name: chatpdf-app
+        image: salah31/chatpdf_app:v1
+        ports:
+        - containerPort: 8501

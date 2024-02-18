@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatpdf-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: chatpdf-app
+  template:
+    metadata:
+      labels:
+        app: chatpdf-app
+    spec:
+      containers:
+      - name: chatpdf-app
+        image: salah31/chatpdf_app:v1
+        ports:
+        - containerPort: 8501
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chatpdf-app-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8501
+    targetPort: 8501
+  selector:
+    app: chatpdf-app
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: chatpdf-app-ingress
+spec:
+  rules: 
+  - host: chat-pdfs.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: chatpdf-app-service
+            port:
+              number: 8501
